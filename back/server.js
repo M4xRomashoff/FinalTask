@@ -3,7 +3,6 @@ module.exports = { rootPath };
 const express = require("express");
 const cors = require("cors");
 const pet_server = express();
-const PdmService = require("./app/services/service");
 
 // var corsOptions = {
 //     origin: "http://localhost:8081"
@@ -17,7 +16,7 @@ pet_server.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 pet_server.use(express.urlencoded({ extended: true }));
 
-// simple route
+// test route
 pet_server.get("/test", (req, res) => {
     res.json({ message: "Server is running !" });
 });
@@ -40,6 +39,7 @@ require('./app/routes/pet.routes')(pet_server);
 
 const db = require("./app/models");
 
-db.sequelize.sync();
+// db.sequelize.sync();
 
 
+// http://localhost:5000/test
