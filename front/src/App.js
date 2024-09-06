@@ -1,22 +1,38 @@
 
 import './App.css';
 import React, { useState, useEffect, useCallback } from "react";
-import {Route, Routes,  Link,  HashRouter } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Routes
+} from "react-router-dom";
 
 import Home from "./components/Home";
+import Pets from "./components/Pets";
 
 function App() {
   return (
-    <div className="App">
-      <div className="mt-5 pt-2">
-        <Routes>
+      <Router>
+          <div>
+              <ul>
+                  <li>
+                      <Link to="/">Главная Страница</Link>
+                  </li>
+                  <li>
+                      <Link to="/pets">Домашние Животные</Link>
+                  </li>
+              </ul>
 
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+              <hr />
 
-        </Routes>
-      </div>
-    </div>
+              <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/pets" element={<Pets />} />
+              </Routes>
+          </div>
+      </Router>
   );
 }
 

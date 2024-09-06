@@ -1,30 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import UserService from "../services/user.service";
 
 const Home = () => {
-  const [content, setContent] = useState("");
 
-  useEffect(() => {
-    UserService.getPublicContent().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setContent(_content);
-      }
-    );
-  }, []);
 
   return (
     <div className="container">
-      <header className="jumbotron">
-        <h3>{content}</h3>
+      <header >
+        <h3 className="center">Главная Страница</h3>
+          <p className="center">
+              Для работы с домашними животными перейдите по ссылке "Домашние Животные"
+          </p>
       </header>
     </div>
   );
