@@ -10,6 +10,9 @@ module.exports = function(app) {
         next();
     });
 
-    app.get(    "/test",                                controller.test );
+    app.get( "/test",  controller.test );
+    app.get( "/pets",  controller.getPets );
+    app.post( "/savePet",  controller.savePet );
+    app.post( "/deletePet",  controller.deletePet );
 
 };

@@ -7,39 +7,91 @@ const Pets = db.pets;
 
 
 
-async function processData(data){
+async function getPets(petType){
 
-    if (data && data.length){
+    return new Promise((Resolve, Reject) => {
 
-        console.log('data', data)
+    if (petType){
 
-        // data.map((item) => {
-        //
-        //
-        //     try {
-        //         const tableName = item.name.toLowerCase();
-        //         const [names, values] = getNamesAndValues(item.values);
-        //
-        //         if (names && values && names.length>0 && values.length >0) {
-        //
-        //             const results =  db.sequelize.query(
-        //                 `
-        //             INSERT INTO ${tableName} ${names} VALUES ${values};
-        //
-        //             `)
-        //                 .then(res => {return  res})
-        //                 .catch(err => {console.log('MYSQL err', err); return  err})
-        //         }
-        //
-        //     } catch (catchError) { console.log('CATCH ERROR', catchError);  return  catchError}
-        // })
+            let selector = '';
+            switch (petType){
+                case 'cat':     selector = 'WHERE type = "cat" '    ; break;
+                case 'dog':     selector = 'WHERE type = "dog" '    ; break;
+                case 'hamster': selector = 'WHERE type = "hamster" '; break;
+            }
+
+
+            const results = db.sequelize.query(
+                `
+                    SELECT * FROM animals ${selector};
+
+                    `)
+                .then(res => {
+                    Resolve(res[0])
+                })
+                .catch(err => {
+                    console.log('MYSQL err', err);
+                    Reject(err)
+                })
+
     }
-    else return 'не данных';
+    else Resolve('нет данных');
+    })
+}
+
+
+async function savePet(petType, name, dob, color, actions ){
+
+    return new Promise((Resolve, Reject) => {
+
+        try {
+            const tableName = 'animals';
+
+            if (petType && name && dob && color && actions) {
+
+                const results =  db.sequelize.query(
+                    `
+                        INSERT INTO ${tableName} (name, type, birth, actions, color) 
+                        VALUES ("${name}","${petType}","${dob}","${actions}","${color}") ;
+    
+                        `)
+                    .then(res => {Resolve('сохранено')})
+                    .catch(err => {console.log('MYSQL err', err);Resolve(err);})
+            }
+
+        } catch (catchError) { console.log('CATCH ERROR', catchError);  Resolve(catchError)}
+    })
+}
+
+
+async function deletePet(id){
+
+    return new Promise((Resolve, Reject) => {
+
+        try {
+            const tableName = 'animals';
+
+            if (id) {
+
+                const results =  db.sequelize.query(
+                    `
+                        DELETE FROM ${tableName} WHERE id = ${id} ;
+    
+                        `)
+                    .then(res => {Resolve('удалено')})
+                    .catch(err => {console.log('MYSQL err', err);Resolve(err);})
+            }
+
+        } catch (catchError) { console.log('CATCH ERROR', catchError);  Resolve(catchError)}
+    })
 }
 
 
 
 module.exports = {
-    processData:processData,
+
+    getPets: getPets,
+    savePet: savePet,
+    deletePet: deletePet,
 
 };
